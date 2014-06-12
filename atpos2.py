@@ -2,43 +2,60 @@
 
 import numpy as np
 
-size = 15
+size = 22.50
 a = size/7.50
 b = 1/a
 atpos = []
 
-a1 = np.array([0,0,0]) #origin atom
-a2 = np.array([0,0.25,0.25]) #face atom on y
-a3 = np.array([0.25,0,0.25]) #face atom on x
+"""def unique(a):
+    order = np.lexsort(a.T)
+    a = a[order]
+    diff = np.diff(a, axis=0)
+    ui = np.ones(len(a), 'bool')
+    ui[1:] = (diff != 0).any(axis=1)
+    return a[ui]
+"""
+a0 = np.array([0,0,0])
+c = [[0,0,0],[b,0,0],[0,b,0],[0,0,b]]
 
-print b
+for m in range(4): #for [0,0,0], [b,0,0], [0,b,0], [0,0,b]
+    a1 = a0 + c[m]
+    for l in range(int(a)): #adding b+b (e.g. [b+b,0,0])
+        atpos.append(a1)
+        sa1 = a1
+        for k in range(int(a)*2): #loop through x
+            ta1 = sa1
+            for i in range(int(a)*2): #loop through y
+                tta1 = ta1
+                for j in range(int(a)*2): #loop through z
+                    tta1 = tta1 + [b/2,0,b/2]
+                    atpos.append(tta1)
+                ta1 = ta1 + [0,b/2,b/2]
+                atpos.append(ta1)
+            sa1 = sa1 + [b/2,b/2,0]
+            atpos.append(sa1)
+        a1 = a1 + a1
 
-for k in range (int(a)): #loop through x
-    atpos.append(a1)
-    atpos.append(a2)
-    atpos.append(a3)
-    ta1 = a1
-    ta2 = a2
-    ta3 = a3
-    for i in range(int(a)): #loop through y
-        tta1 = ta1
-        tta2 = ta2
-        tta3 = ta3
-        for j in range(int(a)-1): #loop through z
-            tta1 = tta1 + [0,b,0]
-            tta2 = tta2 + [0,b,0]
-            tta3 = tta3 + [0,b,0]
-            atpos.append(ta1)
-            atpos.append(ta2)
-            atpos.append(ta3)
-        ta1 = ta1 + [0,0,b]
-        ta2 = ta2 + [0,0,b]
-        ta3 = ta3 + [0,0,b]
-        atpos.append(ta1)
-        atpos.append(ta2)
-        atpos.append(ta3)
-    a1 = a1 + [b,0,0]
-    a2 = a2 + [b,0,0]
-    a3 = a3 + [b,0,0]
- 
+atpos = np.array(atpos)
+
+atpos = atpos[atpos[:,0]<0.999,:]
+atpos = atpos[atpos[:,1]<0.999,:]
+atpos = atpos[atpos[:,2]<0.999,:]
+
+"""atpost = unique(atpos)
+
+d = []
+
+for i in range(len(atpos)): #removing any repeated permutations
+    for j in range(len(atpos)):
+        if i != j:
+            if atpos[i] != atpos[j]:
+                atpos[i] = atpos[i]
+            else:
+                atpos[i] = [0,0,0]
+        else: atpos[i] = atpos[i]
+    if atpos[i] != [0,0,0]:
+        d.append(atpos[i])
+"""
+print len(atpos)
 np.savetxt('atpos.txt',atpos,fmt='%4.2f',newline='\n Al ')
