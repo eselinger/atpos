@@ -7,14 +7,15 @@ a = size/7.50
 b = 1/a
 atpos = []
 
-"""def unique(a):
+def unique(a):
     order = np.lexsort(a.T)
     a = a[order]
     diff = np.diff(a, axis=0)
     ui = np.ones(len(a), 'bool')
     ui[1:] = (diff != 0).any(axis=1)
+    print len(a[ui])
     return a[ui]
-"""
+
 a0 = np.array([0,0,0])
 c = [[0,0,0],[b,0,0],[0,b,0],[0,0,b]]
 
@@ -42,9 +43,9 @@ atpos = atpos[atpos[:,0]<0.999,:]
 atpos = atpos[atpos[:,1]<0.999,:]
 atpos = atpos[atpos[:,2]<0.999,:]
 
-"""atpost = unique(atpos)
+atpos = unique(atpos)
 
-d = []
+"""d = []
 
 for i in range(len(atpos)): #removing any repeated permutations
     for j in range(len(atpos)):
