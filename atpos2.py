@@ -21,7 +21,7 @@ c = [[0,0,0],[b,0,0],[0,b,0],[0,0,b]]
 
 for m in range(4): #for [0,0,0], [b,0,0], [0,b,0], [0,0,b]
     a1 = a0 + c[m]
-    for l in range(int(a)): #adding b+b (e.g. [b+b,0,0])
+    for l in range(int(a)*2): #adding b+b (e.g. [b+b,0,0])
         atpos.append(a1)
         sa1 = a1
         for k in range(int(a)*2): #loop through x
@@ -45,18 +45,4 @@ atpos = atpos[atpos[:,2]<0.999,:]
 
 atpos = unique(atpos)
 
-"""d = []
-
-for i in range(len(atpos)): #removing any repeated permutations
-    for j in range(len(atpos)):
-        if i != j:
-            if atpos[i] != atpos[j]:
-                atpos[i] = atpos[i]
-            else:
-                atpos[i] = [0,0,0]
-        else: atpos[i] = atpos[i]
-    if atpos[i] != [0,0,0]:
-        d.append(atpos[i])
-"""
-print len(atpos)
 np.savetxt('atpos.txt',atpos,fmt='%4.2f',newline='\n Al ')
